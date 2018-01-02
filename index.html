@@ -69,8 +69,8 @@
                 <table>
                     <thead>
                         <tr>
-                            <th data-bind="sort: { arr: rows, prop: 'name'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Name</th>
-                            <th data-bind="sort: { arr: rows, prop: 'surname'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Surname</th>
+                            <th class="sortable" data-bind="sort: { arr: rows, prop: 'name'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Name</th>
+                            <th class="sortable" data-bind="sort: { arr: rows, prop: 'surname'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Surname</th>
                             <th>Age</th>
                             <th>Male</th>
                         </tr>
