@@ -12,7 +12,7 @@ $repeat: 7
 =rainbow
 	@for $i from 1 through $repeat
 		tr:nth-child(#{length($color-collection)}n+#{$i})
-			background-color: nth($color-collection,$i)
+			background-color: desaturate(nth($color-collection,$i),50%)
 
 html,
 body,
