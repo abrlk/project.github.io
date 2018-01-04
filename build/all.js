@@ -1,4 +1,4 @@
-/*! myADT - v0.1.0 - 2018-01-02 23:44:26 +0200 */ 
+/*! myADT - v0.1.0 - 2018-01-03 15:15:26 +0200 */ 
 var peopleData = [
   {
     name: "Joan",
@@ -364,7 +364,7 @@ ko.bindingHandlers.sort = {
 var VievModel = function (items) {
   this.rows = ko.observableArray([]);
   this.sortBy = ko.observable('asc');
-  self.sort = function (data, event) {
+  this.sort = function (data, event) {
     var rows = this.rows();
   };
   this.peopleData = ko.observableArray(items);
@@ -429,6 +429,17 @@ var VievModel = function (items) {
 
   this.rows(mappedRows);
   this.gotoPage(0);
+
+  //live search
+  var self = this;
+  self.inputName = ko.observable('');
+  self.liveSearchPeople = ko.computed(function () {
+    return items.filter(function (obj) {
+      return Object.keys(obj).some(key =>
+       new RegExp(self.inputName(), 'i').test(obj[key])
+      );
+    })
+  });
 }
 
 ko.applyBindings(new VievModel(peopleData));
