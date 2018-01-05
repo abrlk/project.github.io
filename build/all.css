@@ -1,4 +1,4 @@
-/*! myADT - v0.1.0 - 2018-01-02 23:44:26 +0200 */ 
+/*! myADT - v0.1.0 - 2018-01-03 15:15:26 +0200 */ 
 html,
 body,
 ul,
@@ -70,7 +70,7 @@ td {
   content: "";
   display: inline-block;
   vertical-align: middle;
-  margin-left: 15px;
+  margin: 0 0 3px 15px;
   border: solid black; }
 
 .asc:after {

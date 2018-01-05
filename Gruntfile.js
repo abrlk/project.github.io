@@ -2,10 +2,6 @@ module.exports = function(grunt) {
       grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
-          options: {
-            banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-              '<%= grunt.template.today("yyyy-mm-dd HH:MM:ss o") %> */ \n'
-          },
           js: {
             src: 'js/**/*.js',
             dest: 'build/all.js'
@@ -16,13 +12,9 @@ module.exports = function(grunt) {
           }
         },
         uglify: {
-          options: {
-            banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-                '<%= grunt.template.today("yyyy-mm-dd HH:MM:ss o") %> */ \n'
-            },
           js: {
             files: {
-              'build/js.min.js': ['build/all.js']
+              'build/js.min.js': ['js/main.js']
             }
           }
         },
@@ -39,6 +31,15 @@ module.exports = function(grunt) {
               'build/main.min.css': 'css/main.css'
             }
           }
+        },
+        watch: {
+          sass: {
+            files: ['css/*.sass'],
+            tasks: ['sass','cssmin'],
+            options: {
+              spawn: false,
+            },
+          },
         }
       });
     
@@ -46,7 +47,8 @@ module.exports = function(grunt) {
       grunt.loadNpmTasks('grunt-contrib-uglify');
       grunt.loadNpmTasks('grunt-contrib-cssmin');
       grunt.loadNpmTasks('grunt-contrib-sass');
+      grunt.loadNpmTasks('grunt-contrib-watch');
     
-      grunt.registerTask('default', ['concat', 'uglify', 'sass', 'cssmin']);
+      grunt.registerTask('default', ['watch']);
     };
     

@@ -363,7 +363,7 @@ ko.bindingHandlers.sort = {
 var VievModel = function (items) {
   this.rows = ko.observableArray([]);
   this.sortBy = ko.observable('asc');
-  self.sort = function (data, event) {
+  this.sort = function (data, event) {
     var rows = this.rows();
   };
   this.peopleData = ko.observableArray(items);
@@ -393,14 +393,14 @@ var VievModel = function (items) {
   this.numberOfItemsPerPage = ko.observableArray([5, 10, 20, 50, 'all']);
   this.rows = ko.observableArray(peopleData);
   this.pageSize = ko.observable(this.numberOfItemsPerPage()[0]);
-  this.pageIndex = ko.observable(1);
+  this.pageIndex = ko.observable(0);
   this.previousPage = function () {
     if (this.pageIndex() > 0) {
       this.pageIndex(this.pageIndex() - 1);
     }
   };
   this.nextPage = function () {
-    if (this.pageIndex() < this.maxPageIndex()) {
+    if (this.pageIndex()+1 < this.maxPageIndex()) {
       this.pageIndex(this.pageIndex() + 1);
     }
   };
@@ -423,11 +423,22 @@ var VievModel = function (items) {
     for (var i = 0; i < this.maxPageIndex(); i++) {
       arr.push(i);
     }
-    return arr;
+    return arr; 
   };
 
-  this.rows(mappedRows);
+  this.rows(mappedRows);  
   this.gotoPage(0);
+
+  //live search 
+  var self = this;
+  self.inputName = ko.observable('');
+  self.liveSearchPeople = ko.computed(function () {
+    return items.filter(function (obj) {
+      return Object.keys(obj).some(key =>
+       new RegExp(self.inputName(), 'i').test(obj[key])
+      );
+    })
+  });
 }
 
 ko.applyBindings(new VievModel(peopleData));
