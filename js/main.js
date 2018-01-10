@@ -60,14 +60,14 @@ var VievModel = function (items) {
     })
     .map(function (user) {
       var newUser = Object.assign({}, user);
-      if (newUser.sex == "female") {
-        newUser.name = chance.prefix({ gender: "female" }) + " " + newUser.name;
+      if (newUser.sex == "Female") {
+        newUser.name = "Міс " + newUser.name + ' ' + newUser.surname;
       } else {
-        newUser.name = chance.prefix({ gender: "male" }) + " " + newUser.name;
+        newUser.name = "Містер " + newUser.name + ' ' + newUser.surname;
       }
       return newUser;
     });
-  // end sorting 
+  // end sorting and concatenating name with surname
 
   // start pagination
   this.numberOfItemsPerPage = ko.observableArray([5, 10, 20, 50, 'all']);
