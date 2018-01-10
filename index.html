@@ -86,21 +86,21 @@
                 <div >
                     <ul class="pagination">
                         <li>
-                            <a href="#" data-bind="click: function(){gotoPage(0)}, css: {disabled: pageIndex() <= 0}">First</a>
+                            <a href="#" data-bind="click: function(){gotoPage(0)}, css: {disabled: pageIndex() == 0 || pageSize() == 'all'}">First</a>
                         </li>
                         <li>
-                            <a href="#" data-bind="click: previousPage, css: {disabled: pageIndex() <= 0}"><</a>
+                            <a href="#" data-bind="click: previousPage, css: {disabled: pageIndex() == 0 || pageSize() == 'all'}"><</a>
                         </li>
                         <!-- ko foreach: buttons() -->
                         <li data-bind="css: {active: $index() == $parent.pageIndex()}">
-                            <a href="#" data-bind="text:$index() + 1, click: function(){$parent.gotoPage($index())}">0</a>
+                            <a href="#" data-bind="text:$index() + 1, click: function(){$parent.gotoPage($index())}"></a>
                         </li>
                         <!-- /ko -->
                         <li>
-                            <a href="#" data-bind="click: nextPage, css: {disabled: pageIndex()+1 == maxPageIndex()}">></a>
+                            <a href="#" data-bind="click: nextPage, css: {disabled: pageIndex() == maxPageIndex() || pageSize() == 'all'}">></a>
                         </li>
                         <li>
-                            <a href="#" data-bind="click: function(){gotoPage(maxPageIndex() - 1)}, css: {disabled: pageIndex()+1 == maxPageIndex()}">Last</a>
+                            <a href="#" data-bind="click: function(){ gotoPage( maxPageIndex() ) }, css: {disabled: pageIndex() == maxPageIndex() || pageSize() == 'all'}">Last</a>
                         </li>
                     </ul>
                 </div>

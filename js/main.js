@@ -72,38 +72,49 @@ var VievModel = function (items) {
   // start pagination
   this.numberOfItemsPerPage = ko.observableArray([5, 10, 20, 50, 'all']);
   this.rows = ko.observableArray(peopleData);
-  this.pageSize = ko.observable(this.numberOfItemsPerPage()[0]);
   this.pageIndex = ko.observable(0);
+  this.pageSize = ko.observable(this.numberOfItemsPerPage()[0]);
+  this.maxPageIndex = ko.computed(function () {
+    var pageS = this.pageSize();
+    if (pageS === 'all') {
+      pageS = this.rows().length;
+    }
+    return Math.ceil(this.rows().length / pageS) - 1;
+  }, this);
+  this.pageSize.subscribe(function () {
+    if (this.pageIndex() > this.maxPageIndex()) {
+      this.pageIndex(0);
+    }
+  }, this);
   this.previousPage = function () {
     if (this.pageIndex() > 0) {
       this.pageIndex(this.pageIndex() - 1);
     }
   };
   this.nextPage = function () {
-    if (this.pageIndex()+1 < this.maxPageIndex()) {
+    if (this.pageIndex() < this.maxPageIndex()) {
       this.pageIndex(this.pageIndex() + 1);
     }
   };
   this.gotoPage = function (data) {
-    this.pageIndex(data);
+    if (this.pageSize() != 'all') {
+      this.pageIndex(data);
+    }
   };
-  this.maxPageIndex = ko.computed(function () {
-    return Math.ceil(this.rows().length / this.pageSize());
-  }, this);
   this.pagedPeoples = ko.computed(function () {
     var size = this.pageSize();
     if (size === 'all') {
-      size = items.length;
+      size = this.rows().length;
     }
     var start = this.pageIndex() * size;
     return this.rows().slice(start, start + size);
   }, this);
   this.buttons = function () {
     var arr = [];
-    for (var i = 0; i < this.maxPageIndex(); i++) {
+    for (var i = 0; i < this.maxPageIndex() + 1; i++) {
       arr.push(i);
     }
-    return arr; 
+    return arr;
   };
 
   this.rows(mappedRows);  
