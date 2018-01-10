@@ -108,7 +108,7 @@
             <div>
                 <h2>Live search</h2>
                 <form>
-                    <input id="search" type="search" name="search" placeholder="Search for a user" data-bind="value: inputName, valueUpdate: 'keyup'" autocomplete="off" />
+                    <input id="search" type="search" name="search" placeholder="Search for a user" data-bind="value: inputName, valueUpdate:['afterkeydown','propertychange','input']" autocomplete="off" />
                 </form>
                 <div class="table">
                     <table>

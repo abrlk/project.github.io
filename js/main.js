@@ -118,6 +118,9 @@ var VievModel = function (items) {
        new RegExp(self.inputName(), 'i').test(obj[key])
       );
     })
+    .sort(function (a, b) {
+      return a.age - b.age;
+    })
   });
 }
 
