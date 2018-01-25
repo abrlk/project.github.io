@@ -20,7 +20,7 @@ module.exports = {
 	},
 
 	output: {
-		path: path.join(process.cwd(), 'dist'),
+		path: path.join(process.cwd(), 'docs'),
 		filename: '[name].[hash].js',
 		publicPath: '/',
 		sourceMapFilename: '[name].map',
@@ -79,7 +79,7 @@ module.exports = {
 		}],
 	},
 	plugins: [
-		new CleanWebpackPlugin(['dist'], { root: process.cwd() }),
+		new CleanWebpackPlugin(['docs'], { root: process.cwd() }),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
 		}),
