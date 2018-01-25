@@ -1,0 +1,8 @@
+=mymix
+	@media screen and #{$tablet}
+		flex-direction: column
+
+=rainbow
+	@for $i from 1 through length($color-collection)
+		tr:nth-child(#{length($color-collection)}n+#{$i})
+			background-color: desaturate(nth($color-collection,$i),50%)

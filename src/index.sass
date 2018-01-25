@@ -1,0 +1,97 @@
+@import 'src/styles/mixins'
+@import 'src/styles/colors'
+
+$tablet: "(max-width: 768px)"
+
+html,
+body,
+ul,
+ol
+	margin:  0
+	padding: 0
+
+body
+	background-image: url('assets/images/background.png')
+
+.flex-container
+	display: flex
+	flex-direction: column
+	text-align: center
+	width: 70%
+	margin: 0 auto
+
+h1
+	font-family: Verdana, Arial, Helvetica, sans-serif
+
+.alert
+	padding: 15px
+	margin-bottom: 20px
+	border: 1px solid transparent
+	border-radius: 4px
+	color: $green
+	background-color: $greenee
+	border-color: $bordercgreen
+
+.row
+	display: flex
+	+mymix
+
+.table
+	flex: 1
+	margin: 20px 0 20px 0
+
+.table table
+	flex-direction: column
+	width: 100%
+
+tbody
+	+rainbow
+
+table
+	width: 100%
+	border-collapse: collapse
+
+table, th, td
+	border: 1px solid black
+
+td
+	padding: 5px 5px
+
+.styled-select
+	width: 240px
+	height: 33px
+	overflow: hidden
+	background: url(assets/images/select.jpg) no-repeat right
+	border: 1px solid #ccc
+	margin: 0 auto
+
+.styled-select select
+	background: transparent
+	width: 268px
+	padding: 5px
+	font-size: 16px
+	line-height: 1
+	border: 0
+	border-radius: 0
+	height: 34px
+	-webkit-appearance: none
+
+.styled-select select:focus
+	width: 100%
+
+.sortable:after
+	content: ""
+	display: inline-block
+	vertical-align: middle
+	margin: 0 0 3px 15px
+	border: solid black
+
+.asc:after
+	border-width: 0 2px 2px 0
+	padding: 3px
+	transform: rotate(45deg)
+
+.desc:after
+	border-width: 0 2px 2px 0
+	padding: 3px
+	transform: rotate(225deg)

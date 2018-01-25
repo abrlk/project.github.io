@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My pet page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+</head>
+<body id="root">
+  <div class="flex-container">
+    <div class="alert">
+      <h4>
+        Від сервера прийшов список юзерів, потрібно знайти унікальні імена юзерів, для жінок додати Мic а для чоловіків додати Містер,
+        Ім’я та прізвище склеїти і відсортувати по віку. Результат вивести в табличку.
+      </h4>
+    </div>
+    <div class="row">
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th data-bind="sort: { arr: rows, prop: 'name'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Name</th>
+              <th>Surname</th>
+              <th>Age</th>
+              <th>Sex</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: peopleData">
+            <tr>
+              <td data-bind="text: name" /></td>
+              <td data-bind="text: surname" /></td>
+              <td data-bind="text: age" /></td>
+              <td data-bind="text: sex" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name, Surname</th>
+              <th>Age</th>
+              <th>Sex</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: filtered">
+            <tr>
+              <td data-bind="text: name" /></td>
+              <td data-bind="text: age" /></td>
+              <td data-bind="text: sex" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h2>Pagination</h2>
+      <div class="styled-select">
+        <select data-bind="options: numberOfItemsPerPage, value: pageSize"></select>
+      </div>
+      <div data-bind="visible: pageSize">
+        <h4>You have chosen:
+          <span data-bind="text:pageSize"></span>
+        </h4>
+      </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-bind="sort: { arr: rows, prop: 'name'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Name</th>
+              <th class="sortable" data-bind="sort: { arr: rows, prop: 'surname'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Surname</th>
+              <th>Age</th>
+              <th>Sex</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: pagedPeoples">
+            <tr>
+              <td data-bind="text: name" /></td>
+              <td data-bind="text: surname" /></td>
+              <td data-bind="text: age" /></td>
+              <td data-bind="text: sex" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <ul class="pagination">
+          <li>
+            <a href="#" data-bind="click: function(){gotoPage(0)}, css: {disabled: pageIndex() == 0 || pageSize() == 'all'}">First</a>
+          </li>
+          <li>
+            <a href="#" data-bind="click: previousPage, css: {disabled: pageIndex() == 0 || pageSize() == 'all'}">
+              <</a>
+          </li>
+          <!-- ko foreach: buttons() -->
+          <li data-bind="css: {active: $index() == $parent.pageIndex()}">
+            <a href="#" data-bind="text:$index() + 1, click: function(){$parent.gotoPage($index())}"></a>
+          </li>
+          <!-- /ko -->
+          <li>
+            <a href="#" data-bind="click: nextPage, css: {disabled: pageIndex() == maxPageIndex() || pageSize() == 'all'}">></a>
+          </li>
+          <li>
+            <a href="#" data-bind="click: function(){ gotoPage( maxPageIndex() ) }, css: {disabled: pageIndex() == maxPageIndex() || pageSize() == 'all'}">Last</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <h2>Live search</h2>
+      <form>
+        <input type="search" name="search" placeholder="Search for a user" data-bind="value: inputName, valueUpdate:['input']" />
+      </form>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Surname</th>
+              <th>Age</th>
+              <th>Sex</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: liveSearchPeople">
+            <tr>
+              <td data-bind="text: name" /></td>
+              <td data-bind="text: surname" /></td>
+              <td data-bind="text: age" /></td>
+              <td data-bind="text: sex" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

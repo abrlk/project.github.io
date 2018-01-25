@@ -1,0 +1,39 @@
+.pagination
+	margin-top: 30px
+	display: inline-block
+
+.pagination a
+	color: black
+	float: left
+	padding: 8px 16px
+	text-decoration: none
+	border: 1px solid #ddd
+	margin-left: -1px
+
+.pagination li
+	list-style-type: none
+	display: inline-block
+	background-color: #FFFFFF
+	margin: 0 -2px
+
+.pagination li.active
+	background-color: #347AB6
+	color: white
+
+.pagination a.disabled
+	text-decoration: none
+	color: #666
+	cursor: not-allowed
+	background-color: #BEBEBE
+
+.pagination a:hover:not(.active)
+	background-color: #ddd
+
+ul.pagination > li:first-child a
+	border-top-left-radius: 5px
+	border-bottom-left-radius: 5px
+
+
+ul.pagination > li:last-child a
+	border-top-right-radius: 5px
+	border-bottom-right-radius: 5px
