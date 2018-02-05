@@ -22,8 +22,8 @@ module.exports = {
 	output: {
 		path: path.join(process.cwd(), 'docs'),
 		filename: '[name].[hash].js',
-		// publicPath: '/project.github.io',
-		publicPath: '/',
+		publicPath: '/project.github.io',
+		// publicPath: '/',
 		sourceMapFilename: '[name].map',
 	},
 
