@@ -6,3 +6,11 @@
 	@for $i from 1 through length($color-collection)
 		tr:nth-child(#{length($color-collection)}n+#{$i})
 			background-color: desaturate(nth($color-collection,$i),50%)
+
+@mixin button-bg($bg)
+	background: $bg
+	&:hover
+		background:darken($bg,8%)
+		transition: all 0.3s ease
+	&:active
+		background:darken($bg,25%)
