@@ -1,4 +1,4 @@
-// import './sortTableAscDesc.sass';
+import './sortTableAscDesc.sass';
 
 /**
  * @param {*} viewModel

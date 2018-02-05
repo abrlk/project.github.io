@@ -1,6 +1,7 @@
 import ko from 'knockout';
 import { fillArray } from '../utils/utils';
 import './pagination.sass';
+import radio from '../pubSub/pubSub';
 
 const maxPageIndex = function mPi() {
 	let pageS = this.pageSize();
@@ -27,10 +28,11 @@ const pagedPeopleComputed = function pPc() {
 };
 
 export default class Pagination {
-	constructor(peopleData) {
-		this.peopleData = peopleData;
+	constructor() {
+		this.rows = ko.observableArray([]);
+		radio.subscribe('users', (usrsFromMain) => { this.rows(usrsFromMain); });
 		this.numberOfItemsPerPage = ko.observableArray([5, 10, 20, 50, 'all']);
-		this.rows = ko.observableArray(peopleData);
+		this.sortBy = ko.observable('asc');
 		this.pageIndex = ko.observable(0);
 		this.pageSize = ko.observable(this.numberOfItemsPerPage()[0]);
 		this.maxPageIndex = ko.computed(maxPageIndex, this);

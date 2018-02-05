@@ -1,0 +1,39 @@
+@import '../../styles/mixins'
+
+.item-input
+    display: flex
+
+.label label
+    flex: 1
+    padding: 10px
+    font-weight: 300
+    letter-spacing: .09em
+    text-transform: uppercase
+    text-align: right
+    font-family: 'Poiret One', cursive
+
+.label input[type=text]
+    padding: 7px
+    border: 1px solid #ccc
+    border-radius: 4px
+    box-sizing: border-box
+    resize: vertical
+    margin-bottom: 5px
+    flex: 3
+
+.btn
+    color: white
+    text-decoration: none
+    padding: 5px 15px 5px 15px
+    border-radius: 3px
+    font-family: ‘Poiret One’, cursive
+    font-size: 1em
+
+.btn-green
+   @include button-bg(#2ecc71)
+
+.btn-blue
+	@include button-bg(#3498db)
+
+.btn-red
+	@include button-bg(#e74c3c)

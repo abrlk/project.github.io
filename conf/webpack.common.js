@@ -22,7 +22,8 @@ module.exports = {
 	output: {
 		path: path.join(process.cwd(), 'docs'),
 		filename: '[name].[hash].js',
-		publicPath: '/project.github.io',
+		// publicPath: '/project.github.io',
+		publicPath: '/',
 		sourceMapFilename: '[name].map',
 	},
 
@@ -33,7 +34,7 @@ module.exports = {
 
 	module: {
 		rules: [{
-			enforce: 'pre', //to check source files, not modified by other loaders (like babel-loader)
+			enforce: 'pre', // to check source files, not modified by other loaders (like babel-loader)
 			test: /\.js$/,
 			exclude: /node_modules/,
 			loader: 'eslint-loader',
@@ -53,12 +54,12 @@ module.exports = {
 					{
 						loader: 'css-loader',
 						options: {
-							sourceMap: true,
+							sourceMap: false,
 						},
 					}, {
 						loader: 'sass-loader',
 						options: {
-							sourceMap: true,
+							sourceMap: false,
 						},
 					}],
 				// use style-loader in development

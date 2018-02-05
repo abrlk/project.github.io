@@ -1,5 +1,5 @@
 
-export default function uniqueByProp(peopleData, propName) {
+export default function uniqueByProp(peopleData = [], propName) {
 	const used = {};
 	return peopleData.filter((obj) => {
 		if (obj[propName] in used) {
