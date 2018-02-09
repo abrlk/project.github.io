@@ -1,11 +1,9 @@
 import $ from 'jquery';
 import ko from 'knockout';
-import uniqueByProp from './app/uniqueByProp/uniqueByProp';
-import liveSearch from './app/liveSearch/liveSearch';
-import prefixSex from './app/prefixSex/prefixSex';
-import { sortBy } from './app/utils/utils';
+import './app/crudButtons/crudButtons';
 import './bindings';
 import radio from './app/pubSub/pubSub';
+import './app/database/database';
 
 window.ko = ko;
 window.$ = $;
@@ -17,43 +15,60 @@ window.$ = $;
 
 export default class Main {
 	constructor() {
-		this.users = [{
-			name: 'Isaiah',
-			surname: 'Wong',
-			age: 0,
-			sex: 'Female',
-			editMode: false,
-		}, {
-			name: 'Isa',
-			surname: 'Wo',
-			age: 33,
-			sex: 'Female',
-			editMode: false,
-		}, {
-			name: 'Isaak',
-			surname: 'Qwerty',
-			age: 330,
-			sex: 'Female',
-			editMode: false,
-		}];
+		this.users = ko.observableArray([]);
+		radio.subscribe('UsersDB.IGiveUsers', this.putUsersInMainModel.bind(this));
+		radio.subscribe('UsersDB.clearInputs', this.clearInputs.bind(this));
 		this.sortBy = ko.observable('asc');
-		const filteredByName = uniqueByProp(this.users, 'name');
-		const filteredByAge = sortBy(filteredByName, 'age');
-		this.filtered = filteredByAge.map(prefixSex);
-		this.editUsers = this.users.map((user) => {
-			user.editMode = ko.observable(false);
-			return user;
-		});
+		this.confirmMessage = 'Are you sure?';
+		this.inpName = ko.observable('');
+		this.inpSurname = ko.observable('');
+		this.inpAge = ko.observable('');
+		this.inpSex = ko.observable('');
 		this.editModeFunc = function editMode(user) {
 			user.editMode(!user.editMode());
 		};
-		this.inputName = ko.observable('');
-		this.liveSearchPeople = ko.computed(function liveS() {
-			return liveSearch(this.users, this.inputName());
-		}, this);
-		radio.publish('users', this.users);
+		this.read();
 	}
-	save() {
-		this.editMode(!this.editMode);
+
+	putUsersInMainModel(users) {
+		const editUsers = users.map((user) => {
+			user.editMode = ko.observable(false);
+			return user;
+		});
+		this.users(editUsers);
+		radio.publish('MainModel.IGotUsers', users);
+	}
+
+	edit(user) {
+		this.editModeFunc(user);
+	}
+
+	save(user) {
+		radio.publish('MainModel.updateUser', user);
+		this.editModeFunc(user);
+	}
+
+	delete(data) {
+		radio.publish('MainModel.confirm', { message: this.confirmMessage, ID: data.ID });
+	}
+
+	read() {
+		radio.publish('MainModel.allUsers');
+	}
+
+	addNew() {
+		radio.publish('MainModel.addUser', {
+			name: this.inpName(),
+			surname: this.inpSurname(),
+			age: this.inpAge(),
+			sex: this.inpSex(),
+		});
+	}
+
+	clearInputs() {
+		this.inpName('');
+		this.inpSurname('');
+		this.inpAge('');
+		this.inpSex('');
 	}
 }

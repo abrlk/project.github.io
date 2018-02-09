@@ -1,0 +1,48 @@
+@import '../../styles/mixins'
+
+#confirm
+    width: 300px
+    height: 150px
+    position: fixed
+    top: 50%
+    left: 50%
+    margin-top: -75px
+    margin-left: -150px
+    background-color: #F6F7F9
+    border-radius: 20px
+    z-index: 999
+
+.wrap
+    margin: 0 auto
+    text-align: center
+
+#confirm p
+    font-family: 'Poiret One', cursive
+    text-align: center
+    padding-bottom: 12px
+
+.btn-yes
+   @include button-bg(#e74c3c)
+
+.btn-no
+    @include button-bg(#2ecc71)
+
+.btnc
+    color: white
+    text-decoration: none
+    padding: 5px 10px
+    border-radius: 3px
+    font-family: 'Poiret One', cursive
+    font-size: 2em
+    width: 70px
+    height: 30px
+    margin: 10px
+
+.backgropasity
+    width: 100%
+    height: 100%
+    position: fixed
+    top: 0
+    left: 0
+    z-index: 998
+    background: rgba(211, 211, 211, .8)

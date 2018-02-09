@@ -30,7 +30,7 @@ const pagedPeopleComputed = function pPc() {
 export default class Pagination {
 	constructor() {
 		this.rows = ko.observableArray([]);
-		radio.subscribe('users', (usrsFromMain) => { this.rows(usrsFromMain); });
+		radio.subscribe('MainModel.IGotUsers', this.rerenderButtons.bind(this));
 		this.numberOfItemsPerPage = ko.observableArray([5, 10, 20, 50, 'all']);
 		this.sortBy = ko.observable('asc');
 		this.pageIndex = ko.observable(0);
@@ -39,6 +39,10 @@ export default class Pagination {
 		this.pageSize.subscribe(pageSizeObserver, this);
 		this.pagedPeoples = ko.computed(pagedPeopleComputed, this);
 		this.gotoPage(0);
+	}
+
+	rerenderButtons(users) {
+		this.rows(users);
 	}
 
 	previousPage() {
