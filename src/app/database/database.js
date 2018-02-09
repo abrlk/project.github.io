@@ -1,25 +1,48 @@
-import LocalStorageDB from 'localstoragedb';
+import UsersModel from './../services/db/index';
+import radio from './../pubSub/pubSub';
 
-// Initialise. If the database doesn't exist, it is created
-const lib = new LocalStorageDB('users', localStorage);
+export default class UsersDB {
+	constructor() {
+		radio.subscribe('MainModel.addUser', this.addUser.bind(this));
+		radio.subscribe('MainModel.updateUser', this.updateUser.bind(this));
+		radio.subscribe('MainModel.deleteUser', this.removeUser.bind(this));
+		radio.subscribe('MainModel.allUsers', this.allUser.bind(this));
+	}
 
-// Check if the database was just created. Useful for initial database setup
-if (lib.isNew()) {
-	// create the "books" table
-	lib.createTable('users', ['name', 'surname', 'age', 'sex']);
+	addUser({ name, surname, age, sex }) {
+		if (name === '' || surname === '' || age === '' || sex === '') {
+			alert('You have empty fields');
+			return;
+		}
+		UsersModel.insert('users', {
+			name,
+			surname,
+			age,
+			sex,
+		});
+		UsersModel.commit();
+		this.allUser();
+		radio.publish('UsersDB.clearInputs');
+	}
 
-	// insert some data
-	lib.insert('users', {
-		name: 'Agnes', surname: 'Johnson', age: 59, sex: 'Female',
-	});
-	lib.insert('users', {
-		name: 'Albert', surname: 'Casey', age: 40, sex: 'Female',
-	});
-	lib.insert('users', {
-		name: 'Alex', surname: 'Gonzalez', age: 24, sex: 'Male',
-	});
+	updateUser(updatedUser) {
+		if (updatedUser.name === '' || updatedUser.surname === '' || updatedUser.age === '' || updatedUser.sex === '') {
+			alert('You have empty fields');
+			return;
+		}
+		UsersModel.update('users', { ID: updatedUser.ID }, () => updatedUser);
+		UsersModel.commit();
+		this.allUser();
+	}
 
-	// commit the database to localStorage
-	// all create/drop/insert/update/delete operations should be committed
-	lib.commit();
+	allUser() {
+		const users = UsersModel.queryAll('users');
+		radio.publish('UsersDB.IGiveUsers', users);
+	}
+
+	removeUser(user) {
+		UsersModel.deleteRows('users', { ID: user.ID });
+		UsersModel.commit();
+		this.allUser();
+	}
 }

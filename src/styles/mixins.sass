@@ -7,7 +7,7 @@
 		tr:nth-child(#{length($color-collection)}n+#{$i})
 			background-color: desaturate(nth($color-collection,$i),50%)
 
-@mixin button-bg($bg)
+=button-bg($bg)
 	background: $bg
 	&:hover
 		background:darken($bg,8%)
