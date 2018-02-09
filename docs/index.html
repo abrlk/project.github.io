@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My pet page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+  <base href="/project.github.io">
+  <!-- <base href="/"> -->
+<link href="/project.github.io/app.bad8d8a82c0096483b8155edc9e372e0.css" rel="stylesheet"></head>
+<body id="root">
+  <div class="flex-container">
+    <div class="alert">
+      <h4>
+        Від сервера прийшов список юзерів, потрібно знайти унікальні імена юзерів, для жінок додати Мic а для чоловіків додати Містер,
+        Ім’я та прізвище склеїти і відсортувати по віку. Результат вивести в табличку.
+      </h4>
+    </div>
+    <div>
+      <div class="table" id="mainBind">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Surname</th>
+              <th>Age</th>
+              <th>Sex</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: users">
+            <!-- ko ifnot: $data.editMode() -->
+            <tr>
+              <td data-bind="text: name" /></td>
+              <td data-bind="text: surname" /></td>
+              <td data-bind="text: age" /></td>
+              <td data-bind="text: sex" /></td>
+              <td>
+                <form>
+                  <button class="btn-blue" data-bind="click: $root.edit.bind($root)" type="button">Edit</button>
+                  <button class="btn-red" data-bind="click: $root.delete.bind($root)" type="button" value="Delete">Delete</button>
+                </form>
+              </td>
+            </tr>
+            <!-- /ko -->
+            <!-- ko if: $data.editMode() -->
+            <tr class="editInput">
+              <td><input data-bind="value: name" type="text" name="fname"></td>
+              <td><input data-bind="value: surname" type="text" name="lname"></td>
+              <td><input data-bind="value: age" type="text" name="age"></td>
+              <td><input data-bind="value: sex" type="text" name="sex"></td>
+              <td><button data-bind="click: $root.save.bind($root)" type="button" value="Save">Save</button></td>
+            </tr>
+            <!-- /ko -->
+          </tbody>
+        </table>
+        <h1>localStorageDB || CRUD</h1>
+        <form name="questions" id="questions" action="#">
+          <div class="label">
+            <div class="item-input">
+              <label>First Name</label>
+              <input data-bind="value: inpName" type="text" placeholder="Your name..." />
+            </div>
+            <div class="item-input">
+              <label>Last Name</label>
+              <input data-bind="value: inpSurname" type="text" placeholder="Your last name..." />
+            </div>
+            <div class="item-input">
+              <label>Age</label>
+              <input data-bind="value: inpAge" type="text" placeholder="Your age..." />
+            </div>
+            <div class="item-input">
+              <label>Sex</label>
+              <input data-bind="value: inpSex" type="text" placeholder="Your sex..." />
+            </div>
+            <input data-bind="click: $root.addNew.bind($root)" class="btn btn-green" type="submit" name="save" value="Add" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="paginationBind">
+      <h2>Pagination</h2>
+      <div class="styled-select">
+        <select data-bind="options: numberOfItemsPerPage, value: pageSize"></select>
+      </div>
+      <div data-bind="visible: pageSize">
+        <h4>You have chosen:
+          <span data-bind="text:pageSize"></span>
+        </h4>
+      </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-bind="sort: { arr: rows, prop: 'name'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Name</th>
+              <th class="sortable" data-bind="sort: { arr: rows, prop: 'surname'}, css: {'asc': sortBy() == 'asc', 'desc': sortBy() == 'desc' }">Surname</th>
+              <th>Age</th>
+              <th>Sex</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: pagedPeoples">
+            <tr>
+              <td data-bind="text: name" /></td>
+              <td data-bind="text: surname" /></td>
+              <td data-bind="text: age" /></td>
+              <td data-bind="text: sex" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <ul class="pagination">
+          <li>
+            <a href="#" data-bind="click: function(){gotoPage(0)}, css: {disabled: pageIndex() == 0 || pageSize() == 'all'}">First</a>
+          </li>
+          <li>
+            <a href="#" data-bind="click: previousPage, css: {disabled: pageIndex() == 0 || pageSize() == 'all'}">
+              <</a>
+          </li>
+          <!-- ko foreach: buttons() -->
+          <li data-bind="css: {active: $index() == $parent.pageIndex()}">
+            <a href="#" data-bind="text:$index() + 1, click: function(){$parent.gotoPage($index())}"></a>
+          </li>
+          <!-- /ko -->
+          <li>
+            <a href="#" data-bind="click: nextPage, css: {disabled: pageIndex() == maxPageIndex() || pageSize() == 'all'}">></a>
+          </li>
+          <li>
+            <a href="#" data-bind="click: function(){ gotoPage( maxPageIndex() ) }, css: {disabled: pageIndex() == maxPageIndex() || pageSize() == 'all'}">Last</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="liveSearchBind">
+      <h2>Live search</h2>
+      <form>
+        <input type="search" name="search" placeholder="Search for a user" data-bind="value: inputName, valueUpdate:['input']" />
+      </form>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Surname</th>
+              <th>Age</th>
+              <th>Sex</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: liveSearchPeople">
+            <tr>
+              <td data-bind="text: name" /></td>
+              <td data-bind="text: surname" /></td>
+              <td data-bind="text: age" /></td>
+              <td data-bind="text: sex" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div id="confirmBind">
+      <!-- ko if: confirmMode -->
+      <div class="backgropasity"></div>
+      <div id="confirm">
+        <div class="wrap">
+          <p data-bind="text: myMessage"></p>
+          <div>
+            <a href="#" class="btnc btn-yes" data-bind="click: $root.yes.bind($root)">Yes</a>
+            <a href="#" class="btnc btn-no" data-bind="click: $root.no.bind($root)">No</a>
+          </div>
+        </div>
+      </div>
+      <!-- /ko -->
+    </div>
+  </div>
+<script type="text/javascript" src="/project.github.io/vendor.3e0cbd92cce482b004aa.js"></script><script type="text/javascript" src="/project.github.io/app.3e0cbd92cce482b004aa.js"></script></body>
+</html>
