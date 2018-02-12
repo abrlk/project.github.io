@@ -28,6 +28,7 @@ export default class UsersDB {
 	updateUser(updatedUser) {
 		if (updatedUser.name === '' || updatedUser.surname === '' || updatedUser.age === '' || updatedUser.sex === '') {
 			alert('You have empty fields');
+			this.allUser();
 			return;
 		}
 		UsersModel.update('users', { ID: updatedUser.ID }, () => updatedUser);
