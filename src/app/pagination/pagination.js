@@ -1,7 +1,9 @@
 import ko from 'knockout';
 import { fillArray } from '../utils/utils';
 import './pagination.sass';
-import radio from '../pubSub/pubSub';
+import makeRadio from '../pubSub/pubSub';
+
+const radio = makeRadio();
 
 const maxPageIndex = function mPi() {
 	let pageS = this.pageSize();

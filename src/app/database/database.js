@@ -1,5 +1,7 @@
 import UsersModel from './../services/db/index';
-import radio from './../pubSub/pubSub';
+import makeRadio from './../pubSub/pubSub';
+
+const radio = makeRadio();
 
 export default class UsersDB {
 	constructor() {
