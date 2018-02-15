@@ -2,29 +2,23 @@ import test from 'ava';
 import proxyquire from 'proxyquire';
 import { importWithoutStyles } from '../utils/utils';
 
-const { default: liveSearch, stringMatch } = importWithoutStyles('src/app/liveSearch/liveSearch');
+const { default: LiveSearch } = importWithoutStyles('src/app/liveSearch/liveSearch');
 
 
-test('stringMatch should find word in hello world', (t) => {
-	const expected = true;
-	const src = 'hello world';
-	const pattern = 'world';
-	const result = stringMatch(src, pattern);
-	t.is(result, expected);
+test('test should find word', (t) => {
+	const live = new LiveSearch();
+	const src = [{ name: 'word' }, { name: 'Oleg' }, { name: 'Andriy' }, { name: 'Pulup' }];
+	const pattern = 'word';
+	const result = live.liveSearch(src, pattern);
+	const expected = 'word';
+	t.is(result[0].name, expected);
 });
 
-test('stringMatch should not find word in hello world', (t) => {
-	const expected = false;
-	const src = 'hello wqorqlqd';
-	const pattern = 'world';
-	const result = stringMatch(src, pattern);
+test('test should not find word in hello world', (t) => {
+	const live = new LiveSearch();
+	const src = [{ name: 'word' }, { name: 'Oleg' }, { name: 'Andriy' }, { name: 'Pulup' }];
+	const expected = src;
+	live.rerenderLiveSearch(src);
+	const result = live.inputArr();
 	t.is(result, expected);
-});
-
-test('liveSearch should filter array', (t) => {
-	const srcArray = [{ name: 'Ostap' }, { name: 'Oleg' }, { name: 'Andriy' }, { name: 'Pulup' }];
-	const pattern = 'Ostap';
-	const expectedArray = [{ name: 'Ostap' }];
-	const filteredArray = liveSearch(srcArray, pattern);
-	t.deepEqual(expectedArray, filteredArray);
 });

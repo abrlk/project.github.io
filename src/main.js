@@ -2,8 +2,10 @@ import $ from 'jquery';
 import ko from 'knockout';
 import './app/crudButtons/crudButtons';
 import './bindings';
-import radio from './app/pubSub/pubSub';
+import makeRadio from './app/pubSub/pubSub';
 import './app/database/database';
+
+const radio = makeRadio();
 
 window.ko = ko;
 window.$ = $;

@@ -1,10 +1,12 @@
 import test from 'ava';
-import Pagination from './pagination';
-import { fillArray, times } from '../utils/utils';
+import { fillArray, times, importWithoutStyles } from '../utils/utils';
+
+const { default: Pagination } = importWithoutStyles('src/app/pagination/pagination');
 
 test('should increment page index', (t) => {
 	const arr = fillArray(35);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 1;
 	const expectedIndex2 = 2;
 	const expectedIndex3 = 6;
@@ -21,7 +23,8 @@ test('should increment page index', (t) => {
 
 test('max page index should be 3 for 11 items', (t) => {
 	const arr = fillArray(11);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 2;
 	const pageIndex = pagination.maxPageIndex();
 	t.is(pageIndex, expectedIndex);
@@ -29,17 +32,19 @@ test('max page index should be 3 for 11 items', (t) => {
 
 test('should decrement page index', (t) => {
 	const arr = fillArray(11);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 1;
 	times(2)(() => pagination.nextPage());
 	times(1)(() => pagination.previousPage());
-	const generatedIndex = 1;
+	const generatedIndex = pagination.pageIndex();
 	t.is(generatedIndex, expectedIndex);
 });
 
 test('should go to current page index', (t) => {
 	const arr = fillArray(101);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 20;
 	const generatedMaxIndex = pagination.gotoPage(pagination.maxPageIndex());
 	t.is(generatedMaxIndex, expectedIndex);
@@ -47,7 +52,8 @@ test('should go to current page index', (t) => {
 
 test('should check max page index', (t) => {
 	const arr = fillArray(101);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 0;
 	pagination.pageSize('all');
 	const generatedPageSize = pagination.maxPageIndex();
@@ -56,7 +62,8 @@ test('should check max page index', (t) => {
 
 test('should check pageSizeObserver', (t) => {
 	const arr = fillArray(101);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 0;
 	pagination.pageIndex(25);
 	pagination.pageSize(10);
@@ -66,15 +73,17 @@ test('should check pageSizeObserver', (t) => {
 
 test('should check fillArray', (t) => {
 	const arr = fillArray(101);
-	const pagination = new Pagination(arr);
-	const expectedIndex = 20;
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
+	const expectedIndex = 21;
 	const generatedPageIndex = pagination.buttons();
 	t.is(generatedPageIndex.length, expectedIndex);
 });
 
 test('should check previousPage', (t) => {
 	const arr = fillArray(101);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 0;
 	pagination.pageIndex(-1);
 	const generatedPageIndex = pagination.previousPage();
@@ -83,7 +92,8 @@ test('should check previousPage', (t) => {
 
 test('should check gotoPage', (t) => {
 	const arr = fillArray(101);
-	const pagination = new Pagination(arr);
+	const pagination = new Pagination();
+	pagination.rerenderButtons(arr);
 	const expectedIndex = 0;
 	pagination.pageSize('all');
 	pagination.gotoPage(7);
