@@ -5,6 +5,7 @@ const radio = makeRadio();
 
 export default class UsersDB {
 	constructor() {
+		this.emptyFieldsMsg = 'You DO NOT entered all required fields!';
 		radio.subscribe('MainModel.addUser', this.addUser.bind(this));
 		radio.subscribe('MainModel.updateUser', this.updateUser.bind(this));
 		radio.subscribe('MainModel.deleteUser', this.removeUser.bind(this));
@@ -13,7 +14,7 @@ export default class UsersDB {
 
 	addUser({ name, surname, age, sex }) {
 		if (name === '' || surname === '' || age === '' || sex === '') {
-			alert('You have empty fields');
+			radio.publish('UsersDB.ifOneInputIsClear', { message: this.emptyFieldsMsg });
 			return;
 		}
 		UsersModel.insert('users', {

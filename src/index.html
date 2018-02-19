@@ -16,6 +16,9 @@
     </div>
     <div>
       <div class="table" id="mainBind">
+        <div id="containerAddBtn">
+          <a id="addbutton" data-bind="click: $root.showAddWindow.bind($root)" type="button"></a>
+        </div>
         <table>
           <thead>
             <tr>
@@ -36,44 +39,32 @@
               <td>
                 <form>
                   <button class="btn-blue" data-bind="click: $root.edit.bind($root)" type="button">Edit</button>
-                  <button class="btn-red" data-bind="click: $root.delete.bind($root)" type="button" value="Delete">Delete</button>
+                  <button class="btn-red" data-bind="click: $root.delete.bind($root)" type="button">Delete</button>
                 </form>
               </td>
             </tr>
             <!-- /ko -->
             <!-- ko if: $data.editMode() -->
             <tr class="editInput">
-              <td><input data-bind="value: name" type="text" name="fname"></td>
-              <td><input data-bind="value: surname" type="text" name="lname"></td>
-              <td><input data-bind="value: age" type="text" name="age"></td>
-              <td><input data-bind="value: sex" type="text" name="sex"></td>
-              <td><button data-bind="click: $root.save.bind($root)" type="button" value="Save">Save</button></td>
+              <td>
+                <input data-bind="value: name" type="text" name="fname">
+              </td>
+              <td>
+                <input data-bind="value: surname" type="text" name="lname">
+              </td>
+              <td>
+                <input data-bind="value: age" type="text" name="age">
+              </td>
+              <td>
+                <input data-bind="value: sex" type="text" name="sex">
+              </td>
+              <td>
+                <button data-bind="click: $root.save.bind($root)" type="button" value="Save">Save</button>
+              </td>
             </tr>
             <!-- /ko -->
           </tbody>
         </table>
-        <h1>localStorageDB || CRUD</h1>
-        <form name="questions" id="questions" action="#">
-          <div class="label">
-            <div class="item-input">
-              <label>First Name</label>
-              <input data-bind="value: inpName" type="text" placeholder="Your name..." />
-            </div>
-            <div class="item-input">
-              <label>Last Name</label>
-              <input data-bind="value: inpSurname" type="text" placeholder="Your last name..." />
-            </div>
-            <div class="item-input">
-              <label>Age</label>
-              <input data-bind="value: inpAge" type="text" placeholder="Your age..." />
-            </div>
-            <div class="item-input">
-              <label>Sex</label>
-              <input data-bind="value: inpSex" type="text" placeholder="Your sex..." />
-            </div>
-            <input data-bind="click: $root.addNew.bind($root)" class="btn btn-green" type="submit" name="save" value="Add" />
-          </div>
-        </form>
       </div>
     </div>
     <div id="paginationBind">
@@ -83,7 +74,7 @@
       </div>
       <div data-bind="visible: pageSize">
         <h4>You have chosen:
-          <span data-bind="text:pageSize"></span>
+          <span data-bind="text: pageSize"></span>
         </h4>
       </div>
       <div class="table">
@@ -162,7 +153,7 @@
       <div class="backgropasity"></div>
       <div id="confirm">
         <div class="wrap">
-          <p data-bind="text: myMessage"></p>
+          <p data-bind="text: confirmMessage"></p>
           <div>
             <a href="#" class="btnc btn-yes" data-bind="click: $root.yes.bind($root)">Yes</a>
             <a href="#" class="btnc btn-no" data-bind="click: $root.no.bind($root)">No</a>
@@ -171,6 +162,40 @@
       </div>
       <!-- /ko -->
     </div>
+    <div id="addUserBind">
+      <!-- ko if: addMode -->
+      <div class="backgropasity"></div>
+      <div id="confirmAdd">
+        <div class="wrap">
+          <a href="#" class="close" data-bind="click: $root.closeAddWindow.bind($root)"></a>
+          <h1>localStorageDB || CRUD</h1>
+          <p data-bind="text: addUserMessage"></p>
+          <form name="questions" id="questions" action="#">
+            <div class="label">
+              <div class="item-input">
+                <label>First Name</label>
+                <input data-bind="value: inpName" type="text" placeholder="Your name..." />
+              </div>
+              <div class="item-input">
+                <label>Last Name</label>
+                <input data-bind="value: inpSurname" type="text" placeholder="Your last name..." />
+              </div>
+              <div class="item-input">
+                <label>Age</label>
+                <input data-bind="value: inpAge" type="text" placeholder="Your age..." />
+              </div>
+              <div class="item-input">
+                <label>Sex</label>
+                <input data-bind="value: inpSex" type="text" placeholder="Your sex..." />
+              </div>
+              <input data-bind="click: $root.addNew.bind($root)" class="btn btn-green" type="submit" name="save" value="Add" />
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /ko -->
+    </div>
   </div>
 </body>
+
 </html>
