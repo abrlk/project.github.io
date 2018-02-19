@@ -19,13 +19,9 @@ export default class Main {
 	constructor() {
 		this.users = ko.observableArray([]);
 		radio.subscribe('UsersDB.IGiveUsers', this.putUsersInMainModel.bind(this));
-		radio.subscribe('UsersDB.clearInputs', this.clearInputs.bind(this));
 		this.sortBy = ko.observable('asc');
 		this.confirmMessage = 'Are you sure?';
-		this.inpName = ko.observable('');
-		this.inpSurname = ko.observable('');
-		this.inpAge = ko.observable('');
-		this.inpSex = ko.observable('');
+		this.addMessage = 'Please enter all required fields';
 		this.editModeFunc = function editMode(user) {
 			user.editMode(!user.editMode());
 		};
@@ -35,6 +31,7 @@ export default class Main {
 	putUsersInMainModel(users) {
 		const editUsers = users.map((user) => {
 			user.editMode = ko.observable(false);
+			user.addMode = ko.observable(false);
 			return user;
 		});
 		this.users(editUsers);
@@ -58,19 +55,7 @@ export default class Main {
 		radio.publish('MainModel.allUsers');
 	}
 
-	addNew() {
-		radio.publish('MainModel.addUser', {
-			name: this.inpName(),
-			surname: this.inpSurname(),
-			age: this.inpAge(),
-			sex: this.inpSex(),
-		});
-	}
-
-	clearInputs() {
-		this.inpName('');
-		this.inpSurname('');
-		this.inpAge('');
-		this.inpSex('');
+	showAddWindow() {
+		radio.publish('MainModel.showAddWindow', { message: this.addMessage });
 	}
 }

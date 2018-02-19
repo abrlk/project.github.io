@@ -7,7 +7,7 @@ const radio = makeRadio();
 export default class Confirm {
 	constructor() {
 		this.userID = 0;
-		this.myMessage = ko.observable('');
+		this.confirmMessage = ko.observable('');
 		this.confirmMode = ko.observable(false);
 		radio.subscribe('Confirm.Id', (user) => { this.userID = user.ID; });
 		radio.subscribe('MainModel.confirm', this.showWindowMsg.bind(this));
@@ -15,7 +15,7 @@ export default class Confirm {
 
 	showWindowMsg(user) {
 		this.confirmMode(!this.confirmMode());
-		this.myMessage(user.message);
+		this.confirmMessage(user.message);
 		radio.publish('Confirm.Id', { ID: user.ID });
 	}
 
